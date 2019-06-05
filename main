@@ -1,0 +1,178 @@
+#include <iostream>
+using namespace std;
+
+void hacertablero(char matriz[8][8]){
+    char str1[] = " ";
+    int nfilas=1;
+    int ncolu=1;
+
+    for (int i=0; i<8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (i == 0 && j == 0) {
+                matriz[i][j] = str1[0];
+            } else if (i == 4 && j == 4) {
+                matriz[i][j] = '+';
+            } else if (i == 0 && j != 0) {
+                matriz[i][j] = nfilas + '0';
+                nfilas = nfilas + 1;
+            } else if (j == 0 && i != 0) {
+                matriz[i][j] = ncolu + '0';
+                ncolu = ncolu + 1;
+            } else if (i == 1 && j == 1 || i == 1 && j == 2 || i == 2 && j == 1 || i == 2 && j == 2 ||
+                       i == 6 && j == 1 || i == 6 && j == 2 || i == 7 && j == 1 || i == 7 && j == 2 ||
+                       i == 1 && j == 6 || i == 1 && j == 7 || i == 2 && j == 6 || i == 2 && j == 7 ||
+                       i == 6 && j == 6 || i == 6 && j == 7 || i == 7 && j == 6 || i == 7 && j == 7) {
+                matriz[i][j] = str1[0];
+            } else {
+                matriz[i][j] = '0';
+            }
+
+        }
+        cout << endl;
+    }
+}
+
+int validarficha(int f,int c,char matriz[8][8]){
+    if(matriz[f][c]=='0'){
+        return(1);
+    }
+    else{
+        return(0);
+    }
+}
+
+void instrucciones(){
+
+}
+
+int validarmovimiento(int fichaf,int  fichac,int  movf,int movc,char matriz[8][8]){
+    if(matriz[movf][movc]=='+'){
+        if(fichaf+2==movf && fichac==movc && matriz[fichaf+1][fichac]=='0'){
+            return(1);
+        }
+        else if(fichaf-2==movf && fichac==movc && matriz[fichaf-1][fichac]=='0'){
+            return(2);
+        }
+        else if(fichaf==movf && fichac+2==movc && matriz[fichaf][fichac+1]=='0'){
+            return(3);
+        }
+        else if(fichaf==movf && fichac-2==movc && matriz[fichaf][fichac-1]=='0'){
+            return(4);
+        }
+        else{
+            return(0);
+        }
+    }
+    else if(movf==9&&movc==9){
+        return(9);
+    }
+    else{
+        return(0);
+    }
+}
+
+void mover(int validm,int fichaf,int  fichac,int  movf,int movc,char matriz[8][8]){
+    char a;
+    a=matriz[fichaf][fichac];
+    matriz[fichaf][fichac]=matriz[movf][movc];
+    matriz[movf][movc]=a;
+    if (validm==1){
+        matriz[fichaf+1][fichac]='+';
+    }
+    else if(validm==2){
+        matriz[fichaf-1][fichac]='+';
+    }
+    else if(validm==3){
+        matriz[fichaf][fichac+1]='+';
+    }
+    else if(validm==4){
+        matriz[fichaf][fichac-1]='+';
+    }
+}
+
+int cuentafichas(char matriz[8][8]){
+    int fila, columna, a = 0;
+
+    for (fila= 0; fila < 7; fila++)
+    {
+        for (columna = 0; columna < 7; columna++)
+        {
+            if(matriz[fila][columna] == '0')
+            {
+                a++;
+            }
+        }
+    }
+
+    if (a == 1){
+        return (1);
+    }
+    else{
+        return(0);
+    }
+}
+
+void imprimir(char matriz[8][8]){
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            cout << matriz[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void menu() {
+    int x, fichaf, fichac, movf, movc, ganado, validf, validm;
+    char matriz[8][8]={};
+    hacertablero(matriz);
+    cout << "********BIENVENIDOS A SENKU*********" << endl;
+    cout << "Ingresar 1 si quieren jugar o 2 si quieren salir " << endl;
+    cin >> x;
+    cout << "Si quieres parar el juego en cualquier momento colocar 9 en todos los parametros"<<endl;
+    if (x == 1) {
+        imprimir(matriz);
+    } else if (x == 2) {
+        cout << "Hasta pronto";
+    }
+    ganado=cuentafichas(matriz);
+    while (ganado != 1) {
+        cout << "Ingresa ficha a mover:" << endl;
+        cout << "Fila: ";
+        cin >> fichaf;
+        cout << "Columna: ";
+        cin >> fichac;
+        if(fichaf==9 && fichac==9){
+            cout<<"termino el juego";
+            break;
+        }
+        validf = validarficha(fichaf, fichac, matriz);
+        if (validf == 1) {
+            cout << "Ficha valida"<<endl;
+            cout << "Ingresar fila a mover: ";
+            cin >> movf;
+            cout << "Ingresar columna a mover: ";
+            cin >> movc;
+            validm=validarmovimiento(fichaf, fichac, movf, movc, matriz);
+            if(validm == 1||validm == 2||validm == 3||validm == 4) {
+                cout << "Movimiento valido" << endl;
+                mover(validm, fichaf, fichac, movf, movc, matriz);
+                imprimir(matriz);
+            }
+            else if(validm == 9){
+                cout<<"termino el juego";
+                break;
+            }
+            else{
+                cout << "Movimiento invalido"<<endl;
+            }
+        }
+        else{
+            cout << "Ficha invalida"<<endl;
+        }
+    }
+}
+
+int main(){
+    menu();
+    return 0;
+}
