@@ -12,18 +12,14 @@ void imprimir(char **matriz,int estilo){
 }
 
 void hacertablero(char **&matriz,int estilo,int a){
-    //cout << "hola";
     char str1[] = " ";
     int nfilas=1;
     int ncolu=1;
-    imprimir(matriz,estilo);
-    if (estilo==7){
-        for (int i=0; i<8; i++) {
-            for (int j = 0; j < 8; j++) {
+    if (estilo==8){
+        for (int i=0; i<estilo; i++) {
+            for (int j = 0; j < estilo; j++) {
                 if (i == 0 && j == 0) {
-                    cout<<"xd";
                     matriz[i][j] = str1[0];
-                    imprimir(matriz,estilo);
                 } else if (i == 4 && j == 4) {
                     matriz[i][j] = '+';
                 } else if (i == 0 && j != 0) {
@@ -39,16 +35,15 @@ void hacertablero(char **&matriz,int estilo,int a){
                     matriz[i][j] = str1[0];
                 } else {
                     matriz[i][j] = '0';
-                    //cout << "hola";
                 }
 
             }
             cout << endl;
         }
     }
-    else if (estilo==9&&a==0){
-        for (int i=0; i<10; i++) {
-            for (int j = 0; j < 10; j++) {
+    else if (estilo==10&&a==0){
+        for (int i=0; i<estilo; i++) {
+            for (int j = 0; j < estilo; j++) {
                 if (i == 0 && j == 0) {
                     matriz[i][j] = str1[0];
                 } else if (i == 5 && j == 5) {
@@ -73,9 +68,9 @@ void hacertablero(char **&matriz,int estilo,int a){
         }
 
     }
-    else if (estilo==9&&a==1) {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+    else if (estilo==10&&a==1) {
+        for (int i = 0; i < estilo; i++) {
+            for (int j = 0; j < estilo; j++) {
                 if (i == 0 && j == 0) {
                     matriz[i][j] = str1[0];
                 } else if (i == 5 && j == 5) {
@@ -95,7 +90,7 @@ void hacertablero(char **&matriz,int estilo,int a){
                            (i == 1 && j == 6) || (i == 1 && j == 7) || (i == 1 && j == 8) || (i == 1 && j == 9) ||
                            (i == 2 && j == 7) || (i == 2 && j == 8) || (i == 2 && j == 9) || (i == 3 && j == 8) ||
                            (i == 3 && j == 9) || (i == 4 && j == 9) ||
-                           (i == 6 && j == 6) || (i == 7 && j == 8) || (i == 7 && j == 9) || (i == 8 && j == 7) ||
+                           (i == 6 && j == 9) || (i == 7 && j == 8) || (i == 7 && j == 9) || (i == 8 && j == 7) ||
                            (i == 8 && j == 8) || (i == 8 && j == 9) || (i == 9 && j == 6) || (i == 9 && j == 7) ||
                            (i == 9 && j == 8) || (i == 9 && j == 9)) {
                     matriz[i][j] = str1[0];
@@ -196,7 +191,6 @@ void menu(char **&matriz,int estilo,int a) {
     cin >> x;
     cout << "Si quieres parar el juego en cualquier momento colocar 9 en todos los parametros"<<endl;
     if (x == 1) {
-        cout<<"eduardo prro2";
         imprimir(matriz,estilo);
     } else if (x == 2) {
         cout << "Hasta pronto";
@@ -265,7 +259,7 @@ int main(){
         cout << "Vuelva pronto" << endl;
     }
     else if (estilo == 1){
-        estilo=estilo+6;
+        estilo=estilo+7;
         matriz = new char*[estilo];
         for(int i = 0; i < estilo; i++){
             matriz[i] = new char[estilo];
@@ -278,10 +272,25 @@ int main(){
 
         }
         cout<<endl;
-        imprimir(matriz,estilo);
         menu(matriz,estilo,a);
     }
     else if (estilo == 2){
+        estilo=estilo+8;
+        matriz = new char*[estilo];
+        for(int i = 0; i < estilo; i++){
+            matriz[i] = new char[estilo];
+        }
+        for (int i = 0; i < estilo; i++) {
+            for (int j = 0; j < estilo; j++) {
+                matriz[i][j] = '0';
+            }
+
+        }
+        cout<<endl;
+        menu(matriz,estilo,a);
+    }
+    else if (estilo == 3){
+        a=a+1;
         estilo=estilo+7;
         matriz = new char*[estilo];
         for(int i = 0; i < estilo; i++){
@@ -294,29 +303,11 @@ int main(){
 
         }
         cout<<endl;
-        imprimir(matriz,estilo);
-        menu(matriz,estilo,a);
-    }
-    else if (estilo == 3){
-        a=a+1;
-        estilo=estilo+6;
-        matriz = new char*[estilo];
-        for(int i = 0; i < estilo; i++){
-            matriz[i] = new char[estilo];
-        }
-        for (int i = 0; i < estilo; i++) {
-            for (int j = 0; j < estilo; j++) {
-                matriz[i][j] = '0';
-            }
-
-        }
-        cout<<endl;
-        imprimir(matriz,estilo);
         menu(matriz,estilo,a);
     }
     else{
         cout << "Regresa pronto"<<endl;
     }
-    return 0;
+    return (0);
 }
 
